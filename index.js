@@ -41,6 +41,19 @@ async function run() {
 		res.send('helllo')
 	})
 
+	// movies related API=============================
+
+	app.get('/movies', async (req, res) => {
+		const movies = req.body;
+		const result = await movieCollection.find().sort({rating: -1}).limit(6)
+		res.send(result);
+	})
+	app.post('/movies', async (req, res) => {
+		const movies = req.body;
+		const result = await movieCollection.insertOne(movies)
+		res.send(result);
+	})
+
 
 
 	// users related API===============================
