@@ -48,7 +48,13 @@ async function run() {
 		const result = await movieCollection.find().sort({rating: -1}).limit(6).toArray()
 		res.send(result);
 	})
-	app.get('', async (req, res) =>)
+	app.get('/movies/:id', async (req, res) =>{
+		const id = req.params.id;
+		const  newMovie = {_id: new ObjectId(id)};
+		const result = await movieCollection.findOne(newMovie);
+		res.send(result)
+
+	})
 	app.post('/movies', async (req, res) => {
 		const movies = req.body;
 		const result = await movieCollection.insertOne(movies)
