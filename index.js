@@ -35,7 +35,8 @@ async function run() {
     // await client.connect();
 
     const movieCollection = client.db("AllmoviesDB").collection('movies');
-	const userCollection = client.db("MovieUsersDB").collection('users')
+	const userCollection = client.db("MovieUsersDB").collection('users');
+	const favouriteMovieCollection = client.db("FavouriteMovieUsersDB").collection('favouriteMovies')
 
 	app.get('/', (req,res) => {
 		res.send('helllo')
@@ -55,10 +56,31 @@ async function run() {
 		res.send(result)
 
 	})
+	app.get('/favouriteMovies/:email', async (req, res) => {
+		const email = req.params.email;
+		const result = await favouriteMovieCollection.find({email}).toArray();
+		res.send(result);
+
+	})
+
+
 	app.post('/movies', async (req, res) => {
 		const movies = req.body;
 		const result = await movieCollection.insertOne(movies)
 		res.send(result);
+	})
+
+	app.post('/favouriteMovies', async (req, res) => {
+		const favouriteMovies = req.body;
+		const result = await favouriteMovieCollection.insertOne(favouriteMovies);
+		res.send(result)
+	})
+
+	app.delete("/movies/:id", async(req, res) => {
+		const id = req.params.id;
+		const newMovie = {_id : new ObjectId(id)};
+		const result = await movieCollection.deleteOne(newMovie);
+		res.send(result)
 	})
 
 
