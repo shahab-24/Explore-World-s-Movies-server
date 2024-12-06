@@ -56,6 +56,9 @@ async function run() {
 		res.send(result)
 
 	})
+
+
+	// My Favourite movies API===========================================
 	app.get('/favouriteMovies/:email', async (req, res) => {
 		const email = req.params.email;
 		const result = await favouriteMovieCollection.find({email}).toArray();
@@ -68,6 +71,26 @@ async function run() {
 		const movies = req.body;
 		const result = await movieCollection.insertOne(movies)
 		res.send(result);
+	})
+
+	app.put('/updateMovie/:id', async(req, res) => {
+		const id = req.params.id;
+		const query = {_id : new ObjectId(id)}
+		const options = {
+			upsert: true
+		}
+		
+		const updatedMovie = req.body;
+		
+		// const newUpdatedMovie = {
+		// 	$set: {
+		// 		updatedMovie
+		// 	}
+		// }
+
+		const result = await movieCollection.updateOne(query, {$set: updatedMovie}, options
+		)
+		res.send(result)
 	})
 
 	app.post('/favouriteMovies', async (req, res) => {
