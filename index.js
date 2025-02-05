@@ -5,9 +5,22 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const port = process.env.PORT || 3000;
 
+
+const corsOptions = {
+        origin: [
+          "http://localhost:5173",
+          "http://localhost:5174",
+          "https://hostelhub-f7524.web.app",
+        ],
+        credentials: true, // Allow cookies and credentials
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Allowed HTTP methods
+        allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+        optionSuccessStatus: 200,
+      };
+
 // Middleware==================
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 // MongoDB URI & Client Setup==================
 const uri = `mongodb+srv://${process.env.DB_MOVIE_USERS}:${process.env.DB_PASS}@cluster0.3jtn0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
