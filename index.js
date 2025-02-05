@@ -41,7 +41,7 @@ async function run() {
     // Get all movies
     app.get("/allMovies", async (req, res) => {
       const result = await movieCollection.find().toArray();
-	  console.log(result)
+	//   console.log(result)
       res.send(result);
     });
 
